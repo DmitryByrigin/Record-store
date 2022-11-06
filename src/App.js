@@ -12,6 +12,7 @@ import { Routes, Route, Link } from "react-router-dom"
 
 
 
+
 // const arr = [
 //   {img_url: "/img/im1.png", title: "Мужские Кроссовки Nike Air Max 270", price: "12 990"},
 //   {img_url: "/img/im1.png", title: "Мужские Кроссовки Nike Air Max 250", price: "14 900"},

@@ -12,7 +12,7 @@ function Header(props) {
 <header>
     <Link to="">
         <div className="item hat_item">
-            <img src="img/logo.webp" draggable="false" width="80px"/>
+            <img src={require('../img/logo.webp')} draggable="false" width="80px"/>
             <h1>MyMusic</h1>
         </div>
     </Link>

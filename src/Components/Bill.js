@@ -56,12 +56,12 @@ function Bill({OnClickExit, onRemove, items = [], opened}) {
                 <h2>Корзина</h2>
                     {items.map((obj) => (
                     <article key={obj.id} className="card_small">
-                            
-                            <img src={obj.img_url} alt="" />
+            
+                            <img src={require(`../${obj.img_url}`)} alt="" />
                             <h2>{obj.title}</h2>
                             <h1>{obj.price}</h1>
                             {/* {console.log(<h1>{obj.price}</h1>)} */}
-                            <div><img onClick={() => onRemove(obj)} src="img/btn_deleat.png" height="50px" className="article_cost1_item4" /></div>
+                            <div><img onClick={() => onRemove(obj)} src={require('../img/btn_deleat.png')} height="50px" className="article_cost1_item4" /></div>
                         </article>
                     ))}
                 <p>Итого: {TotalPrice}</p>
@@ -72,7 +72,7 @@ function Bill({OnClickExit, onRemove, items = [], opened}) {
             :
             <Info title={IsOrderComplete ? "Зказа оформлен" : "Корзина пустая"} 
                   description= {IsOrderComplete ? "Ваш закза скоро будет передан курьрской службе" : "Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.Вернуться назад"}  
-                  img_url={IsOrderComplete ? "img/f1.png" : "img/box.png"}/>        
+                  img_url={IsOrderComplete ? require('../img/f1.png') : require('../img/box.png')}/>        
 
             }
         </section>
