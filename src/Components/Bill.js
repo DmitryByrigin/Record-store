@@ -6,9 +6,11 @@ import Info from './Info'
 import { useCard } from '../hooks/useCard';
 import axios from 'axios'
 
+import styles from '../index.css'
 
 
-function Bill({OnClickExit, onRemove, items = []}) {
+
+function Bill({OnClickExit, onRemove, items = [], opened}) {
     const {CartItems, SetCartItems, TotalPrice} = useCard();
     var [IsOrderComplete, SetIsOrderComplete] = React.useState(false);
 
@@ -32,13 +34,6 @@ function Bill({OnClickExit, onRemove, items = []}) {
             SetCartItems([]);
         
 
-        for (let i = 0; i < CartItems.length; i++) {
-            const item = CartItems[i];
-            // console.log(item.title);
-            find1 = CartItems.find(title => title.title === item.title).id
-            await axios.delete(`https://6317209a82797be77ff41ddf.mockapi.io/card/${find1}`);
-            //await axios.delete(`https://6317209a82797be77ff41ddf.mockapi.io/card/` + item);
-        }
 
         }
         catch (error) {
@@ -50,13 +45,13 @@ function Bill({OnClickExit, onRemove, items = []}) {
     // var [isItemAdded, SetItemAdded] = React.useState(true);
     return (
         
-        <><div className="overlay"></div>
+        <div className={`${opened ? 'OverlayVisible' : 'overlay'}`}>
         <section className="right_menu">
     
             {items.length > 0 ? 
             <article className="right_menu_item">
                 <div className="cross_img">
-                    <img onClick={OnClickExit} src="/img/cross.svg" alt="" />
+                    <img onClick={OnClickExit} src="img/cross.svg" alt="" />
                 </div>
                 <h2>Корзина</h2>
                     {items.map((obj) => (
@@ -66,7 +61,7 @@ function Bill({OnClickExit, onRemove, items = []}) {
                             <h2>{obj.title}</h2>
                             <h1>{obj.price}</h1>
                             {/* {console.log(<h1>{obj.price}</h1>)} */}
-                            <div><img onClick={() => onRemove(obj)} src="./img/btn_deleat.png" height="50px" className="article_cost1_item4" /></div>
+                            <div><img onClick={() => onRemove(obj)} src="img/btn_deleat.png" height="50px" className="article_cost1_item4" /></div>
                         </article>
                     ))}
                 <p>Итого: {TotalPrice}</p>
@@ -77,10 +72,11 @@ function Bill({OnClickExit, onRemove, items = []}) {
             :
             <Info title={IsOrderComplete ? "Зказа оформлен" : "Корзина пустая"} 
                   description= {IsOrderComplete ? "Ваш закза скоро будет передан курьрской службе" : "Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.Вернуться назад"}  
-                  img_url={IsOrderComplete ? "/img/f1.png" : "./img/box.png"}/>        
+                  img_url={IsOrderComplete ? "img/f1.png" : "img/box.png"}/>        
 
             }
-        </section></>
+        </section>
+        </div>
     );
 }
 

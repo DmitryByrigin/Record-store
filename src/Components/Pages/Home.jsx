@@ -28,7 +28,9 @@ function Home({OnCangeSearchInput, SearchValue, SetSearchValue, Favorites, Items
         // Favorited={Favorites.some((obj)=>obj.title===item.title)}
         // AddedToCard={console.log(CartItems.some((obj)=>obj.title === Items.map((item) => item.title)))}
         // AddedToCard={CartItems.some((obj) => obj.title === b[0])}
-        AddedToCard={isItemAdded(item && item.id)}
+        //AddedToCard={isItemAdded(item && item.id)}
+        //AddedToCard={isItemAdded(item && item.title)}
+        AddedToCard={isItemAdded()}
         Loading = {IsLoading}
         {...item}
         />
@@ -40,7 +42,7 @@ function Home({OnCangeSearchInput, SearchValue, SetSearchValue, Favorites, Items
         <div className="search">
           <BsSearch/> 
           <input onChange={OnCangeSearchInput} value={SearchValue} placeholder="Поиск..." type="text" />
-          {SearchValue ? <img src="./img/btn_deleat.png" height="25px" onClick={() => SetSearchValue('')}/> : null}
+          {SearchValue ? <img src="img/btn_deleat.png" height="25px" onClick={() => SetSearchValue('')}/> : null}
         </div>
         <h1>{SearchValue ? `Поиск по запросу: "${SearchValue}"` : 'Все кроссовки'}</h1>
         <section className="item card_items">

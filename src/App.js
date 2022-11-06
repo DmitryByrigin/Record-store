@@ -3,6 +3,7 @@ import { FaHeart, FaMusic, FaGripLines } from "react-icons/fa"
 import { IoMdSettings } from "react-icons/io"
 import Home from './Components/Pages/Home'
 import Favorites1 from './Components/Pages/Favorites'
+import Orders from './Components/Pages/Orders'
 import Header from './Components/Header'
 import Bill from './Components/Bill'
 import axios from 'axios'
@@ -128,7 +129,7 @@ const AddToCard = (obj) => {
           find1 = list.find(title => title.title === obj.title).id
           axios.delete(`https://6317209a82797be77ff41ddf.mockapi.io/card/${find1}`);
           console.log("Удалил", obj.title)
-          isItemAdded(find1)
+          //isItemAdded(find1)
         });
       
 
@@ -147,68 +148,55 @@ const AddToCard = (obj) => {
 
 }
 
-const isItemAdded = (id) => {
-  console.log(find1)
-  return CartItems.some((obj) => Number(obj.id) === Number(id));
+// const isItemAdded = (id) => {
+//   //console.log(find1)
+//   return CartItems.some((obj) => Number(obj.id) === Number(id));
+// }
+//const itemsResponse = ""
+React.useEffect(() => {
+// НЕ УДАЛЯТЬ! Работа с базой данных без библиотеки функция fetch
+  // fetch('https://6317209a82797be77ff41ddf.mockapi.io/items')
+  // .then((res) => {
+  //   return res.json();
+  // })
 
+  // .then((json) => {
+  //   SetItems(json);
+  // });
+// Работа с базой данных с помощью библиотеки axios
+  
+  async function fetchData() {
+    const itemsResponse = await axios.get('https://6317209a82797be77ff41ddf.mockapi.io/items')
+
+    const cardResponse = await axios.get('https://6317209a82797be77ff41ddf.mockapi.io/card')
+
+    const favoritesResponse = await axios.get('https://6317209a82797be77ff41ddf.mockapi.io/favorites')
+    // console.log("App:", IsLoading);
+    SetIsLoading(false);
+    // console.log(cardResponse.data);
+    SetCartItems(cardResponse.data);
+    SetFavorites(favoritesResponse.data);
+    SetItems(itemsResponse.data);
+    
+  }
+ 
+  fetchData();
+}, []);
+
+
+
+const isItemAdded = (obj) => {
+  let a = CartItems.map((obj1) => obj1.title);
+  //console.log(find1)
+  console.log(obj);
+  return a.some((item) => item === obj);
+  //console.log(CartItems.map((obj1) => obj1.title));
+  //return CartItems.some((obj) => Number(obj.id) === Number(id));
   
 }
 
-  // const AddToCard = (obj) => {
-  //   axios.get('https://6317209a82797be77ff41ddf.mockapi.io/card').then((res) => {
-  //     // console.log(res.data.slice(0,99).map((obj) => (obj.id)));
-  //     SetCartItems(res.data);
-      
-      
-  //   });
-
-    
-  //   axios.post('https://6317209a82797be77ff41ddf.mockapi.io/card', obj);
-  //   // console.log([...CartItems, obj]);
-  //   SetCartItems([...CartItems, obj]);
 
 
-
-    
-  //   axios.get('https://6317209a82797be77ff41ddf.mockapi.io/card').then((res) => {
-  //     // console.log(res.data.slice(0,99).map((obj) => (obj.id)));
-  //     SetCartItems(res.data);
-  //   });
-
-
-
-  // };
-
-  
-
-  React.useEffect(() => {
-// НЕ УДАЛЯТЬ! Работа с базой данных без библиотеки функция fetch
-    // fetch('https://6317209a82797be77ff41ddf.mockapi.io/items')
-    // .then((res) => {
-    //   return res.json();
-    // })
-  
-    // .then((json) => {
-    //   SetItems(json);
-    // });
-// Работа с базой данных с помощью библиотеки axios
-
-    async function fetchData() {
-      const itemsResponse = await axios.get('https://6317209a82797be77ff41ddf.mockapi.io/items')
-  
-      const cardResponse = await axios.get('https://6317209a82797be77ff41ddf.mockapi.io/card')
-  
-      const favoritesResponse = await axios.get('https://6317209a82797be77ff41ddf.mockapi.io/favorites')
-      // console.log("App:", IsLoading);
-      SetIsLoading(false);
-      // console.log(cardResponse.data);
-      SetCartItems(cardResponse.data);
-      SetFavorites(favoritesResponse.data);
-      SetItems(itemsResponse.data);
-    }
-   
-    fetchData();
-  }, []);
 
   // const OnRemoveItems = (id) => {
   //   // console.log(id);
@@ -234,7 +222,7 @@ const isItemAdded = (id) => {
           find1 = list.find(title => title.title === obj.title).id
           axios.delete(`https://6317209a82797be77ff41ddf.mockapi.io/card/${find1}`);
           console.log("Удалил", obj.title)
-          isItemAdded(find1)
+          //isItemAdded(find1)
         });
       
 
@@ -263,7 +251,7 @@ const isItemAdded = (id) => {
   return (
     <AppContext.Provider value={{CartItems, Favorites, Items, isItemAdded, onAddToFavorite, AddToCard, SetCartOpened, SetCartItems}}>
     <div className="wrapper">
-      {CartOpened ? <Bill  items={CartItems} OnClickExit = {() => SetCartOpened(false)} onRemove={OnRemoveItems}/> : null}
+      <Bill  items={CartItems} OnClickExit = {() => SetCartOpened(false)} onRemove={OnRemoveItems} opened={CartOpened}/>
       
       <Header OnClickCart = {() => SetCartOpened(true)}/>
 
@@ -311,7 +299,7 @@ const isItemAdded = (id) => {
       </Routes> */}
 
       <Routes>
-        <Route path="/Favorites" exact element=
+        <Route path="Favorites" exact element=
         {<Favorites1
           SearchValue = {SearchValue}
           SetItems = {SetItems}
@@ -320,10 +308,21 @@ const isItemAdded = (id) => {
           Favorited = {false}
           
         />} />
+
+        <Route path="Orders" exact element=
+        {<Orders
+          // SearchValue = {SearchValue}
+          // SetItems = {SetItems}
+          // // Items = {Favorites}
+
+          // Favorited = {false}
+          
+        />} />
+        
       </Routes>
 
       <Routes>
-        <Route path="/" exact
+        <Route path="" exact
         element=
         {<Home
           OnCangeSearchInput = {OnCangeSearchInput}

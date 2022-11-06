@@ -1,5 +1,5 @@
 import { AppContext } from '../App';
-import React from 'react'
+import React from 'react';
 
 export const useCard = () => {
     const {CartItems, SetCartItems} = React.useContext(AppContext);

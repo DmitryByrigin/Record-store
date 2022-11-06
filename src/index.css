@@ -79,12 +79,13 @@ p {
   right: 0;
   top: 0;
   border-radius: 0px;
-
+  overflow: hidden;
+  /* transform: translateX(100%); */
+  transition: opacity 0.1s ease-in-out;
 
 }
 
 .overlay {
-  background-color: black;
   opacity: 0.3;
   top: 0;
   left: 0;
@@ -92,8 +93,24 @@ p {
   bottom: 0;
   z-index: 2;
   position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  overflow: hidden;
+  transition: opacity 0.1s ease-in-out, visibility 0.1s ease-in-out;
 
+}
 
+.OverlayVisible {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  position: absolute;
+  visibility: visible;
+  /* overflow: hidden; */
+  opacity: 1;
+  transition: opacity 0.1s ease-in-out, visibility 0.1s ease-in-out;
 }
 
 .favorites {
@@ -387,6 +404,8 @@ input:focus {
   background-color: var(--title-text-color);
   cursor: pointer;
 }
+
+
 
 footer {
   display: grid;

@@ -13,6 +13,7 @@ function Card({id, title, img_url, price, OnFavorite, OnPlus, Loading, AddedToCa
         
         // AddedToCard = isAdded;
         OnPlus({title, img_url, price, AddedToCard, id});
+        //isItemAdded({title, img_url, price, AddedToCard, id});
         // console.log("AddedToCard:", AddedToCard);
         // SetAdded(AddedToCard);
        
@@ -56,7 +57,7 @@ function Card({id, title, img_url, price, OnFavorite, OnPlus, Loading, AddedToCa
 
           <article className={CardStyles.article_cost1}>
           <button onClick={OnClickFavorite}>
-          {IsFavorite ? <img style={{width:'40px'}} src="./img/liked.png" alt=""/> :
+          {IsFavorite ? <img style={{width:'40px'}} src="img/liked.png" alt=""/> :
           <FiHeart  size="40px" className={CardStyles.article_cost1_item2} />}
           </button>
               <img src={img_url} alt="" />
@@ -65,7 +66,7 @@ function Card({id, title, img_url, price, OnFavorite, OnPlus, Loading, AddedToCa
               <h3>{price}</h3>
               <button className={CardStyles.plus_button} onClick={OnClickPlus}>
               {/* <AiOutlinePlusCircle size="40px" className={CardStyles.article_cost1_item1} onClick={AddCard}/>  */}
-              <img style={{width:'40px'}} className={CardStyles.article_cost1_item1} src={isItemAdded(id) ? "./img/btn_cheak.png" : "./img/btn_add.png"} alt=""/>
+              <img style={{width:'40px'}} className={CardStyles.article_cost1_item1} src={isItemAdded(title) ? "img/btn_cheak.png" : "img/btn_add.png"} alt=""/>
           </button>
       </article>
         
