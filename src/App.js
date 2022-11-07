@@ -170,7 +170,7 @@ React.useEffect(() => {
   //   console.log("На главной")
   // }
   //navigate("");
-  navigate("dmitrybyrigin.github.io/");
+  navigate("/");
 // Работа с базой данных с помощью библиотеки axios
   
   async function fetchData() {

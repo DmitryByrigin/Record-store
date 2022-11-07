@@ -51,7 +51,7 @@ function Bill({OnClickExit, onRemove, items = [], opened}) {
             {items.length > 0 ? 
             <article className="right_menu_item">
                 <div className="cross_img">
-                    <img onClick={OnClickExit} src="img/cross.svg" alt="" />
+                    <img onClick={OnClickExit} src={require('../img/btn_deleat.png')} alt="" />
                 </div>
                 <h2>Корзина</h2>
                     {items.map((obj) => (

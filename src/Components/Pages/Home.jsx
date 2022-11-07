@@ -42,7 +42,7 @@ function Home({OnCangeSearchInput, SearchValue, SetSearchValue, Favorites, Items
         <div className="search">
           <BsSearch/> 
           <input onChange={OnCangeSearchInput} value={SearchValue} placeholder="Поиск..." type="text" />
-          {SearchValue ? <img src="img/btn_deleat.png" height="25px" onClick={() => SetSearchValue('')}/> : null}
+          {SearchValue ? <img src={require('../../img/btn_deleat.png')} height="25px" onClick={() => SetSearchValue('')}/> : null}
         </div>
         <h1>{SearchValue ? `Поиск по запросу: "${SearchValue}"` : 'Все кроссовки'}</h1>
         <section className="item card_items">
