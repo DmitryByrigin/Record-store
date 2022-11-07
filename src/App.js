@@ -8,7 +8,7 @@ import Header from './Components/Header'
 import Bill from './Components/Bill'
 import axios from 'axios'
 import { BsPlus, BsSearch } from "react-icons/bs";
-import { Routes, Route, Link } from "react-router-dom"
+import { Routes, Route, Link, useNavigate } from "react-router-dom"
 
 
 
@@ -20,7 +20,7 @@ import { Routes, Route, Link } from "react-router-dom"
 // ];
 export const AppContext = React.createContext({});
 function App() {
-
+  let navigate = useNavigate();
   
   // console.log(AppContext);
   const [CartItems, SetCartItems] = React.useState([]);
@@ -164,6 +164,12 @@ React.useEffect(() => {
   // .then((json) => {
   //   SetItems(json);
   // });
+
+  // if (<Routes> <Route path="http://localhost:3000/first_react_app" exact/></Routes>) {
+  //   <Link to=""></Link>
+  //   console.log("На главной")
+  // }
+  navigate("");
 // Работа с базой данных с помощью библиотеки axios
   
   async function fetchData() {
