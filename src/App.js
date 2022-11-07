@@ -169,7 +169,8 @@ React.useEffect(() => {
   //   <Link to=""></Link>
   //   console.log("На главной")
   // }
-  navigate("");
+  //navigate("");
+  navigate("dmitrybyrigin.github.io/");
 // Работа с базой данных с помощью библиотеки axios
   
   async function fetchData() {
