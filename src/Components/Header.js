@@ -20,15 +20,15 @@ function Header(props) {
 
     
     <div className="sidebar">
-        <Link to="Favorites">
+        {/* <Link to="Favorites">
             <FiHeart size="40px"/>
-        </Link>
+        </Link> */}
 
-        <Link to="Orders">
+        {/* <Link to="Orders">
             <AiOutlineUser size="40px"/>
-        </Link>
-    <h1>{TotalPrice}</h1>
-    <FaGripLines size="40px" color="#252525" className="sidebar_item" onClick={props.OnClickCart}/>
+        </Link> */}
+        <h1>Итоговая цена: {TotalPrice}</h1>
+        <FaGripLines size="40px" color="#252525" className="sidebar_item" onClick={props.OnClickCart}/>
     </div>
 </header>
     );

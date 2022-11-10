@@ -7,7 +7,9 @@ import Orders from './Components/Pages/Orders'
 import Header from './Components/Header'
 import Bill from './Components/Bill'
 import axios from 'axios'
-import { BsPlus, BsSearch } from "react-icons/bs";
+import { AiOutlineUser } from "react-icons/ai";
+import { FiHeart } from "react-icons/fi";
+import { BsPlus, BsSearch, BsTranslate } from "react-icons/bs";
 import { Routes, Route, Link, useNavigate } from "react-router-dom"
 
 
@@ -47,7 +49,7 @@ function App() {
           let list = res.data
           find0 = list.find(title => title.title === obj.title).id
           axios.delete(`https://6317209a82797be77ff41ddf.mockapi.io/favorites/${find0}`);
-          console.log("Удалил", obj.title)
+          // console.log("Удалил", obj.title)
         });
       
 
@@ -59,7 +61,7 @@ function App() {
     else {
       axios.post(`https://6317209a82797be77ff41ddf.mockapi.io/favorites`, obj);
       SetFavorites((prev) =>  [...prev, obj]);
-      console.log("Добавил", obj.title)
+      // console.log("Добавил", obj.title)
     }
 
     // axios.get('https://6317209a82797be77ff41ddf.mockapi.io/favorites').then((res) => {
@@ -95,7 +97,7 @@ function App() {
           let list = res.data
           find2 = list.find(title => title.title === obj.title).id
           axios.delete(`https://6317209a82797be77ff41ddf.mockapi.io/favorites/${find2}`);
-          console.log("Удалил", obj.title)
+          // console.log("Удалил", obj.title)
         });
         
         
@@ -103,7 +105,7 @@ function App() {
         // axios.delete(`https://6317209a82797be77ff41ddf.mockapi.io/card/${id}`);
         // SetCartItems((prev) => prev.filter((item) => item.id !== id));
 
-        console.log("App.js", obj.id);
+        // console.log("App.js", obj.id);
       }
       else {
         const {data} = await axios.post(`https://6317209a82797be77ff41ddf.mockapi.io/favorites`, obj);
@@ -129,7 +131,7 @@ const AddToCard = (obj) => {
           let list = res.data
           find1 = list.find(title => title.title === obj.title).id
           axios.delete(`https://6317209a82797be77ff41ddf.mockapi.io/card/${find1}`);
-          console.log("Удалил", obj.title)
+          // console.log("Удалил", obj.title)
           //isItemAdded(find1)
         });
       
@@ -144,7 +146,7 @@ const AddToCard = (obj) => {
       SetCartItems((prev) =>  [...prev, obj]);
       // AddedToCard = true;
       // SetAddedToCard = AddedToCard;
-      console.log("Добавил", obj)
+      // console.log("Добавил", obj)
     }
 
 }
@@ -155,6 +157,7 @@ const AddToCard = (obj) => {
 // }
 //const itemsResponse = ""
 React.useEffect(() => {
+  document.title = 'Record store';
 // НЕ УДАЛЯТЬ! Работа с базой данных без библиотеки функция fetch
   // fetch('https://6317209a82797be77ff41ddf.mockapi.io/items')
   // .then((res) => {
@@ -196,7 +199,7 @@ React.useEffect(() => {
 const isItemAdded = (obj) => {
   let a = CartItems.map((obj1) => obj1.title);
   //console.log(find1)
-  console.log(obj);
+  // console.log(obj);
   return a.some((item) => item === obj);
   //console.log(CartItems.map((obj1) => obj1.title));
   //return CartItems.some((obj) => Number(obj.id) === Number(id));
@@ -243,17 +246,17 @@ const isItemAdded = (obj) => {
 
   }; 
 
+  // Test counter
+  // const [count, setCount] = React.useState(0);
 
-  const [count, setCount] = React.useState(0);
+  // const Plus = () => {
+  //   setCount(count+1);
+  // };
+  // // console.log(setCount);
 
-  const Plus = () => {
-    setCount(count+1);
-  };
-  // console.log(setCount);
-
-  const Minus = () => {
-    setCount(count-1);
-  };
+  // const Minus = () => {
+  //   setCount(count-1);
+  // };
 
   var [CartOpened, SetCartOpened] = React.useState(false);
   return (
@@ -263,7 +266,7 @@ const isItemAdded = (obj) => {
       
       <Header OnClickCart = {() => SetCartOpened(true)}/>
 
-      <nav>
+      {/* <nav>
      
       <div className="item">
         <ul className="item nav_item">
@@ -278,52 +281,37 @@ const isItemAdded = (obj) => {
 
 
 
-      </nav>
+      </nav> */}
       
       <aside>
-        <section className="item">
-          <article className="item aside_item">
-            {/* <i className="fa-solid love fa-heart fa-xl"></i> */}
-              <FaHeart/>
-            <h3><a href="">Мне нравится</a></h3>
+        <section className="all_aside_item">
+          <article>
+          <Link className="item aside_item" to="Favorites">
+            <FiHeart size="40px"/>
+            <h3>Мне нравится</h3>
+          </Link>
           </article>
 
-          <article className="item aside_item">
-            {/* <i className="fa-solid playlist fa-music fa-xl"></i> */}
-            <FaMusic size="20px" color="#3B49DF"/>
-            <h3><a href="">Плейлист дня</a></h3>
-          </article>
-
-          <article className="item aside_item">
-            {/* <i className="fa-solid srtting fa-gear fa-xl"></i> */}
-            <IoMdSettings/>
-            <h3><a href="">Настройки</a></h3>
+          <article>
+            <Link className="item aside_item" to="Orders">
+            <AiOutlineUser size="45px"/>
+            <h3>Мои заказы</h3>
+            </Link> 
           </article>
         </section>
       </aside>
-
-      {/* <Routes>
-        <Route path="/Favorites" element={<Favorites1/>} />
-      </Routes> */}
 
       <Routes>
         <Route path="Favorites" exact element=
         {<Favorites1
           SearchValue = {SearchValue}
           SetItems = {SetItems}
-          // Items = {Favorites}
-
           Favorited = {false}
           
         />} />
 
         <Route path="Orders" exact element=
         {<Orders
-          // SearchValue = {SearchValue}
-          // SetItems = {SetItems}
-          // // Items = {Favorites}
-
-          // Favorited = {false}
           
         />} />
         
@@ -350,12 +338,12 @@ const isItemAdded = (obj) => {
 
 
       <footer>
-        <article className="item counter">
+        {/* <article className="item counter">
           
           <h3>{count}</h3>
           <button onClick={Plus}>+</button>
           <button onClick={Minus}>-</button>
-        </article>
+        </article> */}
       </footer>
 
     </div>
