@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Record-store/static/css/main.b43b7f6b.css",
-    "main.js": "/Record-store/static/js/main.93f432a0.js",
+    "main.css": "/Record-store/static/css/main.48cdefc7.css",
+    "main.js": "/Record-store/static/js/main.2e9c3f44.js",
     "static/media/qim1.png": "/Record-store/static/media/qim1.27a398a4c11854b4de85.png",
     "static/media/im1.png": "/Record-store/static/media/im1.4ee352f3a1ff6f6b6431.png",
     "static/media/im3.png": "/Record-store/static/media/im3.e5cc5204d8049a0360cc.png",
@@ -11,11 +11,11 @@
     "static/media/logo.webp": "/Record-store/static/media/logo.1da39962a502ab3cbfb2.webp",
     "static/media/cross.svg": "/Record-store/static/media/cross.5695377669b89e057958.svg",
     "index.html": "/Record-store/index.html",
-    "main.b43b7f6b.css.map": "/Record-store/static/css/main.b43b7f6b.css.map",
-    "main.93f432a0.js.map": "/Record-store/static/js/main.93f432a0.js.map"
+    "main.48cdefc7.css.map": "/Record-store/static/css/main.48cdefc7.css.map",
+    "main.2e9c3f44.js.map": "/Record-store/static/js/main.2e9c3f44.js.map"
   },
   "entrypoints": [
-    "static/css/main.b43b7f6b.css",
-    "static/js/main.93f432a0.js"
+    "static/css/main.48cdefc7.css",
+    "static/js/main.2e9c3f44.js"
   ]
 }
