@@ -5,13 +5,9 @@ import { AppContext } from "../../App";
 
 
 
-function Home({OnCangeSearchInput, SearchValue, SetSearchValue, Favorites, Items, IsLoading, AddedToCard, onAddToFavoriteApp, CartItems, AddToCard}) {
-  let arr1 = ["Мужские Кроссовки Nike Blazer Mid Suede", 1]
-  let arr2 = [1, "Мужские Кроссовки Nike Blazer Mid Suede"]
-  let a = CartItems.map((item => item.title))
-  let b = Items.map((item) => item.title)
+function Home({OnCangeSearchInput, SearchValue, SetSearchValue, Items, IsLoading, onAddToFavorite, CartItems, AddToCard}) {
 
-  const { isItemAdded } = React.useContext(AppContext);
+  const { isItemAdded, isItemFavorited } = React.useContext(AppContext);
   const RenderItems = () => {
     
     const filtredItems = Items.filter((item) =>
@@ -21,7 +17,7 @@ function Home({OnCangeSearchInput, SearchValue, SetSearchValue, Favorites, Items
       <Card
         key={index}
 
-        OnFavorite ={(obj) => onAddToFavoriteApp(obj)}
+        OnFavorite ={(obj) => onAddToFavorite(obj)}
         // OnFavorite ={CartItems}
         OnPlus ={(obj) => AddToCard(obj)}
         // Favorited={(obj) => console.log(obj)}
@@ -31,6 +27,7 @@ function Home({OnCangeSearchInput, SearchValue, SetSearchValue, Favorites, Items
         //AddedToCard={isItemAdded(item && item.id)}
         //AddedToCard={isItemAdded(item && item.title)}
         AddedToCard={isItemAdded()}
+        onAddToFavorite={isItemFavorited()}
         Loading = {IsLoading}
         {...item}
         />
@@ -41,10 +38,10 @@ function Home({OnCangeSearchInput, SearchValue, SetSearchValue, Favorites, Items
         <main className="item">
         <div className="search">
           <BsSearch/> 
-          <input onChange={OnCangeSearchInput} value={SearchValue} placeholder="Поиск..." type="text" />
+          <input onChange={OnCangeSearchInput} value={SearchValue} placeholder="Search..." type="text" />
           {SearchValue ? <img src={require('../../img/btn_deleat.png')} style={{cursor: "pointer"}} height="35px" onClick={() => SetSearchValue('')}/> : null}
         </div>
-        <h1>{SearchValue ? `Поиск по запросу: "${SearchValue}"` : 'Все кроссовки'}</h1>
+        <h1>{SearchValue ? `Search by request: "${SearchValue}"` : 'All sneakers'}</h1>
         <section className="item card_items">
 
           {RenderItems()}

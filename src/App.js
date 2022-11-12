@@ -1,6 +1,4 @@
 import React from "react";
-import { FaHeart, FaMusic, FaGripLines } from "react-icons/fa"
-import { IoMdSettings } from "react-icons/io"
 import Home from './Components/Pages/Home'
 import Favorites1 from './Components/Pages/Favorites'
 import Orders from './Components/Pages/Orders'
@@ -9,84 +7,41 @@ import Bill from './Components/Bill'
 import axios from 'axios'
 import { AiOutlineUser } from "react-icons/ai";
 import { FiHeart } from "react-icons/fi";
-import { BsPlus, BsSearch, BsTranslate } from "react-icons/bs";
 import { Routes, Route, Link, useNavigate } from "react-router-dom"
 
 
-
-
-// const arr = [
-//   {img_url: "/img/im1.png", title: "Мужские Кроссовки Nike Air Max 270", price: "12 990"},
-//   {img_url: "/img/im1.png", title: "Мужские Кроссовки Nike Air Max 250", price: "14 900"},
-
-// ];
 export const AppContext = React.createContext({});
 function App() {
+  var [IsOrderComplete, SetIsOrderComplete] = React.useState(false);
+  // Проверяем закрыта корзина или открыта
+  const [CartOpened, SetCartOpened] = React.useState(false);
+
+  // useNavigate редерект с https://dmitrybyrigin.github.io/Record-store/
+  // на главную https://dmitrybyrigin.github.io/
   let navigate = useNavigate();
-  
-  // console.log(AppContext);
+
+  // CartItems - корзина
   const [CartItems, SetCartItems] = React.useState([]);
+
   const [Favorites, SetFavorites] = React.useState([]);
-  const [AddedToCard, SetAddedToCard] = React.useState(false);
+  // const [AddedToCard, SetAddedToCard] = React.useState(false);
+
+  // IsLoading - Включение загрузуи страницы
   const [IsLoading, SetIsLoading] = React.useState(true);
+
+  // Items - товары из мокапи
   const [Items, SetItems] = React.useState([]);
   const [SearchValue, SetSearchValue] = React.useState('');
 
-
+  // Смотрим что пишет пользователь
   const OnCangeSearchInput = (event) => {
     SetSearchValue(event.target.value);
     // console.log(event.target.value);
   };
-  let find0
-  const onAddToFavoriteApp = (obj) => {
 
-    if (Favorites.find((item) => item.title === obj.title)) {
-      SetFavorites((prev) => prev.filter((item) => item.title !== obj.title));
+  // Удаление и добовление "favorites" с главной страницы и со строницы "favorites"
 
-      axios.get('https://6317209a82797be77ff41ddf.mockapi.io/favorites').then((res) => {
-        // console.log(res.data.slice(0,99).map((obj) => (obj.id)));
-        
-          let list = res.data
-          find0 = list.find(title => title.title === obj.title).id
-          axios.delete(`https://6317209a82797be77ff41ddf.mockapi.io/favorites/${find0}`);
-          // console.log("Удалил", obj.title)
-        });
-      
-
-      // axios.delete(`https://6317209a82797be77ff41ddf.mockapi.io/card/${id}`);
-      // SetCartItems((prev) => prev.filter((item) => item.id !== id));
-
-      // console.log("App.js", obj.id);
-    }
-    else {
-      axios.post(`https://6317209a82797be77ff41ddf.mockapi.io/favorites`, obj);
-      SetFavorites((prev) =>  [...prev, obj]);
-      // console.log("Добавил", obj.title)
-    }
-
-    // axios.get('https://6317209a82797be77ff41ddf.mockapi.io/favorites').then((res) => {
-    //   // console.log(res.data.slice(0,99).map((obj) => (obj.id)));
-    //   SetFavorites(res.data);
-    //   console.log("Получил", res.data);
-    // });
-
-    // axios.post('https://6317209a82797be77ff41ddf.mockapi.io/favorites', obj);
-    // // console.log([...CartItems, obj]);
-    // SetFavorites([...Favorites, obj]);
-    // console.log("Отправил", [...Favorites, obj]);
-
-
-    // axios.get('https://6317209a82797be77ff41ddf.mockapi.io/favorites').then((res) => {
-    //   // console.log(res.data.slice(0,99).map((obj) => (obj.id)));
-    //   SetFavorites(res.data);
-    //   console.log("Получил", res.data);
-    // });
-
-
-  }
-
-  let find2
-  const onAddToFavorite = async (obj) => {
+  const onAddToFavorite = async (obj, filter) => {
 
     try {
       if (Favorites.find((FaObj) => FaObj.title === obj.title)) {
@@ -95,17 +50,10 @@ function App() {
         // console.log(res.data.slice(0,99).map((obj) => (obj.id)));
         
           let list = res.data
-          find2 = list.find(title => title.title === obj.title).id
-          axios.delete(`https://6317209a82797be77ff41ddf.mockapi.io/favorites/${find2}`);
+          filter = list.find(title => title.title === obj.title).id
+          axios.delete(`https://6317209a82797be77ff41ddf.mockapi.io/favorites/${filter}`);
           // console.log("Удалил", obj.title)
         });
-        
-        
-
-        // axios.delete(`https://6317209a82797be77ff41ddf.mockapi.io/card/${id}`);
-        // SetCartItems((prev) => prev.filter((item) => item.id !== id));
-
-        // console.log("App.js", obj.id);
       }
       else {
         const {data} = await axios.post(`https://6317209a82797be77ff41ddf.mockapi.io/favorites`, obj);
@@ -119,9 +67,11 @@ function App() {
 
 
   }
-let find1=""
 
-const AddToCard = (obj) => {
+// Добовление и удаление товара из корзины
+const AddToCard = (obj, filter) => {
+    SetIsOrderComplete(false);
+    console.log(IsOrderComplete);
     if (CartItems.find((item) => item.title === obj.title)) {
       SetCartItems((prev) => prev.filter((item) => item.title !== obj.title));
 
@@ -129,36 +79,23 @@ const AddToCard = (obj) => {
         // console.log(res.data.slice(0,99).map((obj) => (obj.id)));
         
           let list = res.data
-          find1 = list.find(title => title.title === obj.title).id
-          axios.delete(`https://6317209a82797be77ff41ddf.mockapi.io/card/${find1}`);
+          filter = list.find(title => title.title === obj.title).id
+          axios.delete(`https://6317209a82797be77ff41ddf.mockapi.io/card/${filter}`);
           // console.log("Удалил", obj.title)
-          //isItemAdded(find1)
         });
-      
-
-      // axios.delete(`https://6317209a82797be77ff41ddf.mockapi.io/card/${id}`);
-      // SetCartItems((prev) => prev.filter((item) => item.id !== id));
-
-      // console.log("App.js", obj.id);
     }
     else {
       axios.post(`https://6317209a82797be77ff41ddf.mockapi.io/card`, obj);
       SetCartItems((prev) =>  [...prev, obj]);
-      // AddedToCard = true;
-      // SetAddedToCard = AddedToCard;
       // console.log("Добавил", obj)
     }
 
 }
 
-// const isItemAdded = (id) => {
-//   //console.log(find1)
-//   return CartItems.some((obj) => Number(obj.id) === Number(id));
-// }
-//const itemsResponse = ""
+// useEffect функция которая исполняется только один раз при загрузке проекта
 React.useEffect(() => {
   document.title = 'Record store';
-// НЕ УДАЛЯТЬ! Работа с базой данных без библиотеки функция fetch
+// Work with database without library, fetch function
   // fetch('https://6317209a82797be77ff41ddf.mockapi.io/items')
   // .then((res) => {
   //   return res.json();
@@ -172,9 +109,11 @@ React.useEffect(() => {
   //   <Link to=""></Link>
   //   console.log("На главной")
   // }
-  //navigate("");
+
+// При запуске проекта нас переадресует на главную страницу
   navigate("/");
-// Работа с базой данных с помощью библиотеки axios
+
+// Working with a data base using the axios library
   
   async function fetchData() {
     const itemsResponse = await axios.get('https://6317209a82797be77ff41ddf.mockapi.io/items')
@@ -182,69 +121,48 @@ React.useEffect(() => {
     const cardResponse = await axios.get('https://6317209a82797be77ff41ddf.mockapi.io/card')
 
     const favoritesResponse = await axios.get('https://6317209a82797be77ff41ddf.mockapi.io/favorites')
-    // console.log("App:", IsLoading);
+
     SetIsLoading(false);
-    // console.log(cardResponse.data);
     SetCartItems(cardResponse.data);
     SetFavorites(favoritesResponse.data);
-    SetItems(itemsResponse.data);
-    
+    SetItems(itemsResponse.data); 
   }
  
   fetchData();
 }, []);
 
 
+// Сохронение состояния добовления состояния товара (добавлен/ не добавлен) галочка
+const isItemAdded = (obj, CartItems_map) => {
+  CartItems_map = CartItems.map((obj1) => obj1.title);
+  // console.log(CartItems_map.some((item) => item === obj))
+  return CartItems_map.some((item) => item === obj);
+}
 
-const isItemAdded = (obj) => {
-  let a = CartItems.map((obj1) => obj1.title);
-  //console.log(find1)
-  // console.log(obj);
-  return a.some((item) => item === obj);
-  //console.log(CartItems.map((obj1) => obj1.title));
-  //return CartItems.some((obj) => Number(obj.id) === Number(id));
-  
+const isItemFavorited = (obj, Favorited_map) => {
+  Favorited_map = Favorites.map((obj1) => obj1.title);
+  return Favorited_map.some((item) => item === obj);
 }
 
 
 
 
-  // const OnRemoveItems = (id) => {
-  //   // console.log(id);
-  //   axios.delete(`https://6317209a82797be77ff41ddf.mockapi.io/card/${id}`);
-  //   SetCartItems((prev) => prev.filter((item) => item.id !== id));
-  //   // console.log(SetCartItems((prev) => prev.filter((item) => item.id !== id)));
-  //   // console.log(res.data.slice(0,99).map((obj) => (obj.id)));
+const OnRemoveItems = (obj, filter) => {
 
+  if (CartItems.find((item) => item.title === obj.title)) {
+    SetCartItems((prev) => prev.filter((item) => item.title !== obj.title));
 
-  // }; 
-
-  const OnRemoveItems = (obj) => {
-
-
-
-    if (CartItems.find((item) => item.title === obj.title)) {
-      SetCartItems((prev) => prev.filter((item) => item.title !== obj.title));
-
-      axios.get('https://6317209a82797be77ff41ddf.mockapi.io/card').then((res) => {
-        // console.log(res.data.slice(0,99).map((obj) => (obj.id)));
-        
-          let list = res.data
-          find1 = list.find(title => title.title === obj.title).id
-          axios.delete(`https://6317209a82797be77ff41ddf.mockapi.io/card/${find1}`);
-          console.log("Удалил", obj.title)
-          //isItemAdded(find1)
-        });
+    axios.get('https://6317209a82797be77ff41ddf.mockapi.io/card').then((res) => {
+      // console.log(res.data.slice(0,99).map((obj) => (obj.id)));
       
-
-      // axios.delete(`https://6317209a82797be77ff41ddf.mockapi.io/card/${id}`);
-      // SetCartItems((prev) => prev.filter((item) => item.id !== id));
-
-      // console.log("App.js", obj.id);
-    }
-
-
-  }; 
+        let list = res.data
+        filter = list.find(title => title.title === obj.title).id
+        axios.delete(`https://6317209a82797be77ff41ddf.mockapi.io/card/${filter}`);
+        console.log("Удалил", obj.title)
+        //isItemAdded(find1)
+      });
+  }
+}; 
 
   // Test counter
   // const [count, setCount] = React.useState(0);
@@ -258,49 +176,35 @@ const isItemAdded = (obj) => {
   //   setCount(count-1);
   // };
 
-  var [CartOpened, SetCartOpened] = React.useState(false);
+  
   return (
-    <AppContext.Provider value={{CartItems, Favorites, Items, isItemAdded, onAddToFavorite, AddToCard, SetCartOpened, SetCartItems}}>
+    // Создаём глобальные переменные, которые можем использовать в других файлах/компонетнах
+    <AppContext.Provider value={{CartItems, Favorites, Items, isItemAdded, isItemFavorited, onAddToFavorite, AddToCard, SetCartOpened, SetCartItems, IsOrderComplete, SetIsOrderComplete}}>
+
     <div className="wrapper">
+      {/* Боковая панель */}
       <Bill  items={CartItems} OnClickExit = {() => SetCartOpened(false)} onRemove={OnRemoveItems} opened={CartOpened}/>
       
       <Header OnClickCart = {() => SetCartOpened(true)}/>
-
-      {/* <nav>
-     
-      <div className="item">
-        <ul className="item nav_item">
-          <li><h3><a href="#">Пункт меню</a></h3></li>
-          <li><h3><a href="#">Пункт меню</a></h3></li>
-          <li><h3><a href="#">Пункт меню</a></h3></li>
-          <li><h3><a href="#">Пункт меню</a></h3></li>
-          <li><h3><a href="#">Пункт меню</a></h3></li>
-          <li><h3><a href="#">Пункт меню</a></h3></li>
-        </ul>
-      </div>
-
-
-
-      </nav> */}
       
       <aside>
         <section className="all_aside_item">
           <article>
           <Link className="item aside_item" to="Favorites">
             <FiHeart size="40px"/>
-            <h3>Мне нравится</h3>
+            <h3>Favorites</h3>
           </Link>
           </article>
 
           <article>
             <Link className="item aside_item" to="Orders">
             <AiOutlineUser size="45px"/>
-            <h3>Мои заказы</h3>
+            <h3>My orders</h3>
             </Link> 
           </article>
         </section>
       </aside>
-
+    {/* Навигация по сайту (до Favorites) */}
       <Routes>
         <Route path="Favorites" exact element=
         {<Favorites1
@@ -316,7 +220,8 @@ const isItemAdded = (obj) => {
         />} />
         
       </Routes>
-
+    
+    {/* Назначаем главную страницу */}
       <Routes>
         <Route path="" exact
         element=
@@ -326,10 +231,10 @@ const isItemAdded = (obj) => {
           SetSearchValue = {SetSearchValue}
           Items = {Items}
           CartItems = {CartItems}
-          onAddToFavoriteApp = {onAddToFavoriteApp}
+          onAddToFavorite = {onAddToFavorite}
           AddToCard = {AddToCard}
           SetItems = {SetItems}
-          AddedToCard = {AddedToCard}
+          // AddedToCard = {AddedToCard}
           Favorites={Favorites}
           IsLoading={IsLoading}
         
@@ -338,12 +243,9 @@ const isItemAdded = (obj) => {
 
 
       <footer>
-        {/* <article className="item counter">
-          
-          <h3>{count}</h3>
-          <button onClick={Plus}>+</button>
-          <button onClick={Minus}>-</button>
-        </article> */}
+        <article className="item counter">
+          <h3>Copyright © {(new Date().getFullYear())} «Record-store»</h3>
+        </article>
       </footer>
 
     </div>

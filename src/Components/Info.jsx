@@ -15,7 +15,7 @@ const {SetCartOpened} = React.useContext(AppContext);
         <p>{description}</p>
         <button onClick={() => SetCartOpened(false)}>
             <AiOutlineArrowLeft size="30px"/>
-            <h2>Вернуться назад</h2>
+            <h2>Come back</h2>
         </button>   
     </article>
   )

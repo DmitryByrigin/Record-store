@@ -7,7 +7,7 @@ import { AppContext } from "../../App";
 
 function Card({id, title, img_url, price, OnFavorite, OnPlus, Loading, AddedToCard, Favorited = false}) {
     // var [isAdded, SetAdded] = React.useState(AddedToCard);
-    const { isItemAdded } = React.useContext(AppContext);
+    const { isItemAdded, isItemFavorited } = React.useContext(AppContext);
     function OnClickPlus() {
         // isAdded = !isAdded;
         
@@ -57,12 +57,12 @@ function Card({id, title, img_url, price, OnFavorite, OnPlus, Loading, AddedToCa
 
           <article className={CardStyles.article_cost1}>
           <button onClick={OnClickFavorite}>
-          {IsFavorite ? <img style={{width:'40px'}} src={require('../../img/liked.png')} alt=""/> :
+          {isItemFavorited(title) ? <img style={{width:'40px'}} src={require('../../img/liked.png')} alt=""/> :
           <FiHeart  size="40px" className={CardStyles.article_cost1_item2} />}
           </button>
               <img src={require(`../../${img_url}`)} alt="" />
               <h3>{title}</h3>
-              <p>ЦЕНА:</p>
+              <p>PRICE:</p>
               <h3>{price}</h3>
               <button className={CardStyles.plus_button} onClick={OnClickPlus}>
               {/* <AiOutlinePlusCircle size="40px" className={CardStyles.article_cost1_item1} onClick={AddCard}/>  */}

@@ -1,21 +1,20 @@
-// import SmallCard from "./SmallCard.js"
 import React from "react";
 import Info from './Info'
-// import App from '../App.js';
-// import Card from './Card/Card';
 import { useCard } from '../hooks/useCard';
 import axios from 'axios'
-
-import styles from '../index.css'
-
+import { AppContext } from "../App";
 
 
 function Bill({OnClickExit, onRemove, items = [], opened}) {
+    
+    const { IsOrderComplete, Items, SetIsOrderComplete } = React.useContext(AppContext);
     if (items.length > 0) {
         document.body.style.overflowY = "hidden";
     }
+
     const {CartItems, SetCartItems, TotalPrice} = useCard();
-    var [IsOrderComplete, SetIsOrderComplete] = React.useState(false);
+
+    
 
     const [orderID, setOrderId] = React.useState(null);
     
@@ -25,25 +24,80 @@ function Bill({OnClickExit, onRemove, items = [], opened}) {
     //     SetCartItems([]);
     //     console.log(IsOrderComplete);
     // };
-    let find1 = "";
-    const OnClickOreder = async () => {
+
+    // const OnClickOreder = async () => {
+    //     try {
+    //         const {data} = await axios.post(`https://6317209a82797be77ff41ddf.mockapi.io/orders`, {
+    //             items: CartItems,
+    //         });
+
+    //         console.log("до:", IsOrderComplete);
+    //         // IsOrderComplete(true)
+    //         SetIsOrderComplete(true);
+    //         setOrderId(data.id);
+    //         SetCartItems([]);
+    //         console.log("после:", IsOrderComplete);
+        
+
+
+    //     }
+    //     catch (error) {
+    //         alert("Не удалось создаь заказ");
+    //     }
+
+    //     // SetIsOrderComplete(false);
+
+    // };
+
+    const OnClickOreder = async (filter) => {
         try {
             const {data} = await axios.post(`https://6317209a82797be77ff41ddf.mockapi.io/orders`, {
                 items: CartItems,
             });
 
+            console.log("до:", IsOrderComplete);
+            // IsOrderComplete(true)
             SetIsOrderComplete(true);
             setOrderId(data.id);
+            for(let i = 1; i<8; i++) {
+                axios.delete(`https://6317209a82797be77ff41ddf.mockapi.io/card/${i}`);
+            }
+           
             SetCartItems([]);
+            console.log("после:", IsOrderComplete);
         
+            // let Items_map = Items.map((obj1) => obj1.title);
+            // console.log("Items_map: ",Items_map);
+        
+            // let CartItems_map = CartItems.map((obj1) => obj1.title);
+            // console.log("CartItems_map: ", CartItems_map);
+        
+            // if (CartItems_map.some((item) => item === Items_map)) {
+            //     // SetCartItems((prev) => prev.filter((item) => item.title !== Items_map));
+            
+            //     axios.get('https://6317209a82797be77ff41ddf.mockapi.io/card').then((res) => {
+            //       // console.log(res.data.slice(0,99).map((obj) => (obj.id)));
+                  
+            //         let list = res.data
+            //         filter = list.find(title => title.title === Items_map).id
+            //         axios.delete(`https://6317209a82797be77ff41ddf.mockapi.io/card/${filter}`);
+            //         console.log("Удалил", Items_map)
+            //         //isItemAdded(find1)
+            //       });
+            //   }
 
+            //   console.log(Items_map)
+              
 
         }
         catch (error) {
             alert("Не удалось создаь заказ");
         }
 
+        // SetIsOrderComplete(false);
+
     };
+
     function c() {
         if(opened == true) {
             document.body.style.overflowY = "hidden";
@@ -69,7 +123,7 @@ function Bill({OnClickExit, onRemove, items = [], opened}) {
                 <div className="cross_img">
                     <img onClick={OnClickExit} src={require('../img/btn_deleat.png')} alt="" />
                 
-                <h2>Корзина</h2>
+                <h2>Cart</h2>
                 </div>
                 <div className="all_goods">
                     {items.map((obj) => (
@@ -83,14 +137,14 @@ function Bill({OnClickExit, onRemove, items = [], opened}) {
                         </article>
                     ))}
                 </div>
-                <h2>Итого: {TotalPrice}</h2>
-                <h3>Налог 5%: {(TotalPrice/100*5).toFixed(2)}</h3>
-                <button onClick={OnClickOreder} className="botton_offer"><h2>Офомить заказ</h2></button>
+                <h2>Total: {TotalPrice}</h2>
+                <h3>Tax 5%: {(TotalPrice/100*5).toFixed(2)}</h3>
+                <button onClick={OnClickOreder} className="botton_offer"><h2>Place an order</h2></button>
             </article>
 
             :
-            <Info title={IsOrderComplete ? "Зказа оформлен" : "Корзина пустая"} 
-                  description= {IsOrderComplete ? "Ваш закза скоро будет передан курьрской службе" : "Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ"}  
+            <Info title={IsOrderComplete ? "Order completed" : "Cart is empty"} 
+                  description= {IsOrderComplete ? "Your order will soon be transferred to the courier service" : "Add at least one pair of sneakers to order"}  
                   img_url={IsOrderComplete ? require('../img/f1.png') : require('../img/box.png')}/>       
 
             }

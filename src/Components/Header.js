@@ -1,8 +1,5 @@
 import { FaGripLines} from "react-icons/fa";
-import { FiHeart } from "react-icons/fi";
-import { AiOutlineUser } from "react-icons/ai";
 import { Link } from 'react-router-dom';
-import { AppContext } from '../App';
 import React from 'react';
 import { useCard } from '../hooks/useCard';
 
@@ -27,7 +24,7 @@ function Header(props) {
         {/* <Link to="Orders">
             <AiOutlineUser size="40px"/>
         </Link> */}
-        <h1>Итоговая цена: {TotalPrice}</h1>
+        <h1>Total price: {TotalPrice}</h1>
         <FaGripLines size="40px" color="#252525" className="sidebar_item" onClick={props.OnClickCart}/>
     </div>
 </header>
